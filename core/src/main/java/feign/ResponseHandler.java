@@ -53,13 +53,14 @@ public class ResponseHandler {
     this.executionChain = executionChain;
   }
 
-  public Object handleResponse(String configKey,
+  public Object handleResponse(ThreadContext threadContext,
+                               String configKey,
                                Response response,
                                Type returnType,
                                long elapsedTime)
       throws Exception {
     try {
-      response = logAndRebufferResponseIfNeeded(configKey, response, elapsedTime);
+      response = logAndRebufferResponseIfNeeded(threadContext, configKey, response, elapsedTime);
       return executionChain.next(
           new InvocationContext(configKey, decoder, errorDecoder, dismiss404, closeAfterDecode,
               decodeVoid, response, returnType));
@@ -74,12 +75,18 @@ public class ResponseHandler {
     }
   }
 
-  private Response logAndRebufferResponseIfNeeded(String configKey,
+  private Response logAndRebufferResponseIfNeeded(ThreadContext threadContext,
+                                                  String configKey,
                                                   Response response,
                                                   long elapsedTime)
       throws IOException {
     if (logLevel == Level.NONE) {
       return response;
+    }
+
+    if (threadContext != null) {
+      // threadContext.copyToThread(Thread.currentThread());
+      threadContext.restore();
     }
 
     return logger.logAndRebufferResponse(configKey, logLevel, response, elapsedTime);

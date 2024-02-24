@@ -71,6 +71,7 @@ public final class AsyncFeign<C> {
     private AsyncClient<C> client = new AsyncClient.Default<>(
         new Client.Default(null, null), LazyInitializedExecutorService.instance);
     private MethodInfoResolver methodInfoResolver = MethodInfo::new;
+    private ContextManipulateProvider contextManipulateProvider;
 
     @Deprecated
     public AsyncBuilder<C> defaultContextSupplier(Supplier<C> supplier) {
@@ -85,6 +86,11 @@ public final class AsyncFeign<C> {
 
     public AsyncBuilder<C> methodInfoResolver(MethodInfoResolver methodInfoResolver) {
       this.methodInfoResolver = methodInfoResolver;
+      return this;
+    }
+
+    public AsyncBuilder<C> contextManipulateProvider(ContextManipulateProvider contextManipulateProvider) {
+      this.contextManipulateProvider = contextManipulateProvider;
       return this;
     }
 
@@ -210,7 +216,7 @@ public final class AsyncFeign<C> {
               responseHandler, logger, logLevel,
               propagationPolicy, methodInfoResolver,
               new RequestTemplateFactoryResolver(encoder, queryMapEncoder),
-              options, decoder, errorDecoder);
+              options, decoder, errorDecoder, contextManipulateProvider);
       final ReflectiveFeign<C> feign =
           new ReflectiveFeign<>(contract, methodHandlerFactory, invocationHandlerFactory,
               defaultContextSupplier);

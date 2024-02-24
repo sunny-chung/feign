@@ -44,6 +44,7 @@ final class AsynchronousMethodHandler<C> implements MethodHandler {
   private final C requestContext;
   private final AsyncResponseHandler asyncResponseHandler;
   private final MethodInfo methodInfo;
+  private final ContextManipulateProvider contextManipulateProvider;
 
 
   private AsynchronousMethodHandler(Target<?> target, AsyncClient<C> client, Retryer retryer,
@@ -51,7 +52,8 @@ final class AsynchronousMethodHandler<C> implements MethodHandler {
       Logger logger, Logger.Level logLevel, MethodMetadata metadata,
       RequestTemplate.Factory buildTemplateFromArgs, Options options,
       AsyncResponseHandler asyncResponseHandler, ExceptionPropagationPolicy propagationPolicy,
-      C requestContext, MethodInfo methodInfo) {
+      C requestContext, MethodInfo methodInfo,
+      ContextManipulateProvider contextManipulateProvider) {
 
     this.target = checkNotNull(target, "target");
     this.client = checkNotNull(client, "client for %s", target);
@@ -67,6 +69,7 @@ final class AsynchronousMethodHandler<C> implements MethodHandler {
     this.requestContext = requestContext;
     this.asyncResponseHandler = asyncResponseHandler;
     this.methodInfo = methodInfo;
+    this.contextManipulateProvider = contextManipulateProvider;
   }
 
   @Override
@@ -175,6 +178,9 @@ final class AsynchronousMethodHandler<C> implements MethodHandler {
       logger.logRequest(metadata.configKey(), logLevel, request);
     }
 
+    ThreadContext threadContext = new ThreadContext(contextManipulateProvider);
+    threadContext.snapshot();
+
     long start = System.nanoTime();
     return client.execute(request, options, Optional.ofNullable(requestContext))
         .thenApply(response ->
@@ -196,7 +202,7 @@ final class AsynchronousMethodHandler<C> implements MethodHandler {
             throw completionException;
           }
         })
-        .thenCompose(response -> handleResponse(response, elapsedTime(start)));
+        .thenCompose(response -> handleResponse(threadContext, response, elapsedTime(start)));
   }
 
   private static Response ensureRequestIsSet(Response response,
@@ -208,9 +214,12 @@ final class AsynchronousMethodHandler<C> implements MethodHandler {
         .build();
   }
 
-  private CompletableFuture<Object> handleResponse(Response response, long elapsedTime) {
+  private CompletableFuture<Object> handleResponse(ThreadContext threadContext,
+                                                   Response response,
+                                                   long elapsedTime) {
     return asyncResponseHandler.handleResponse(
-        metadata.configKey(), response, methodInfo.underlyingReturnType(), elapsedTime);
+        threadContext, metadata.configKey(), response, methodInfo.underlyingReturnType(),
+        elapsedTime);
   }
 
   private long elapsedTime(long start) {
@@ -249,6 +258,7 @@ final class AsynchronousMethodHandler<C> implements MethodHandler {
     private final Options options;
     private final Decoder decoder;
     private final ErrorDecoder errorDecoder;
+    private final ContextManipulateProvider contextManipulateProvider;
 
     Factory(AsyncClient<C> client, Retryer retryer, List<RequestInterceptor> requestInterceptors,
         AsyncResponseHandler responseHandler,
@@ -258,7 +268,8 @@ final class AsynchronousMethodHandler<C> implements MethodHandler {
         RequestTemplateFactoryResolver requestTemplateFactoryResolver,
         Options options,
         Decoder decoder,
-        ErrorDecoder errorDecoder) {
+        ErrorDecoder errorDecoder,
+        ContextManipulateProvider contextManipulateProvider) {
       this.client = checkNotNull(client, "client");
       this.retryer = checkNotNull(retryer, "retryer");
       this.requestInterceptors = checkNotNull(requestInterceptors, "requestInterceptors");
@@ -272,6 +283,7 @@ final class AsynchronousMethodHandler<C> implements MethodHandler {
       this.options = checkNotNull(options, "options");
       this.errorDecoder = checkNotNull(errorDecoder, "errorDecoder");
       this.decoder = checkNotNull(decoder, "decoder");
+      this.contextManipulateProvider = contextManipulateProvider;
     }
 
     public MethodHandler create(Target<?> target,
@@ -282,7 +294,7 @@ final class AsynchronousMethodHandler<C> implements MethodHandler {
       return new AsynchronousMethodHandler<C>(target, client, retryer, requestInterceptors,
           logger, logLevel, md, buildTemplateFromArgs, options, responseHandler,
           propagationPolicy, requestContext,
-          methodInfoResolver.resolve(target.type(), md.method()));
+          methodInfoResolver.resolve(target.type(), md.method()), contextManipulateProvider);
     }
   }
 }

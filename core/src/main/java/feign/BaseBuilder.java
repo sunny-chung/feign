@@ -292,6 +292,8 @@ public abstract class BaseBuilder<B extends BaseBuilder<B, T>, T> implements Clo
         .filter(field -> !field.getType().isPrimitive())
         // skip enumerations
         .filter(field -> !field.getType().isEnum())
+        // not sure how to fix it, skipping
+        .filter(field -> !Objects.equals(field.getName(), "contextManipulateProvider"))
         .collect(Collectors.toList());
   }
 

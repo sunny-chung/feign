@@ -34,12 +34,13 @@ class AsyncResponseHandler {
         closeAfterDecode, decodeVoid, executionChain);
   }
 
-  public CompletableFuture<Object> handleResponse(String configKey,
+  public CompletableFuture<Object> handleResponse(ThreadContext threadContext,
+                                                  String configKey,
                                                   Response response,
                                                   Type returnType,
                                                   long elapsedTime) {
     CompletableFuture<Object> resultFuture = new CompletableFuture<>();
-    handleResponse(resultFuture, configKey, response, returnType, elapsedTime);
+    handleResponse(resultFuture, threadContext, configKey, response, returnType, elapsedTime);
     return resultFuture;
   }
 
@@ -48,13 +49,15 @@ class AsyncResponseHandler {
    */
   @Deprecated()
   void handleResponse(CompletableFuture<Object> resultFuture,
+                      ThreadContext threadContext,
                       String configKey,
                       Response response,
                       Type returnType,
                       long elapsedTime) {
     try {
       resultFuture.complete(
-          this.responseHandler.handleResponse(configKey, response, returnType, elapsedTime));
+          this.responseHandler.handleResponse(threadContext, configKey, response, returnType,
+              elapsedTime));
     } catch (Exception e) {
       resultFuture.completeExceptionally(e);
     }

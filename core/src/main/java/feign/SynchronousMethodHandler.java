@@ -112,7 +112,7 @@ final class SynchronousMethodHandler implements MethodHandler {
 
     long elapsedTime = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start);
     return responseHandler.handleResponse(
-        metadata.configKey(), response, metadata.returnType(), elapsedTime);
+        null, metadata.configKey(), response, metadata.returnType(), elapsedTime);
   }
 
   long elapsedTime(long start) {
