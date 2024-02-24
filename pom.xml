@@ -17,7 +17,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>io.github.openfeign</groupId>
+  <groupId>io.github.sunny-chung</groupId>
   <artifactId>parent</artifactId>
   <version>13.2.1-patch-1</version>
   <packaging>pom</packaging>
@@ -27,46 +27,48 @@
 
   <modules>
     <module>core</module>
-    <module>gson</module>
-    <module>httpclient</module>
-    <module>hc5</module>
-    <module>hystrix</module>
-    <module>jackson</module>
-    <module>jackson-jaxb</module>
-    <module>jackson-jr</module>
-    <module>jaxb</module>
-    <module>jaxb-jakarta</module>
-    <module>jaxrs</module>
-    <module>jaxrs2</module>
-    <module>jaxrs3</module>
-    <module>java11</module>
-    <module>jakarta</module>
-    <module>json</module>
-    <module>okhttp</module>
-    <module>googlehttpclient</module>
-    <module>ribbon</module>
-    <module>sax</module>
-    <module>slf4j</module>
-    <module>spring4</module>
-    <module>soap</module>
-    <module>soap-jakarta</module>
-    <module>reactive</module>
-    <module>dropwizard-metrics4</module>
-    <module>dropwizard-metrics5</module>
+    <!--    <module>gson</module>-->
+    <!--    <module>httpclient</module>-->
+    <!--    <module>hc5</module>-->
+    <!--    <module>hystrix</module>-->
+    <!--    <module>jackson</module>-->
+    <!--    <module>jackson-jaxb</module>-->
+    <!--    <module>jackson-jr</module>-->
+    <!--    <module>jaxb</module>-->
+    <!--    <module>jaxb-jakarta</module>-->
+    <!--    <module>jaxrs</module>-->
+    <!--    <module>jaxrs2</module>-->
+    <!--    <module>jaxrs3</module>-->
+    <!--    <module>java11</module>-->
+    <!--    <module>jakarta</module>-->
+    <!--    <module>json</module>-->
+    <!--    <module>okhttp</module>-->
+    <!--    <module>googlehttpclient</module>-->
+    <!--    <module>ribbon</module>-->
+    <!--    <module>sax</module>-->
+    <!--    <module>slf4j</module>-->
+    <!--    <module>spring4</module>-->
+    <!--    <module>soap</module>-->
+    <!--    <module>soap-jakarta</module>-->
+    <!--    <module>reactive</module>-->
+    <!--    <module>dropwizard-metrics4</module>-->
+    <!--    <module>dropwizard-metrics5</module>-->
     <module>kotlin</module>
-    <module>micrometer</module>
-    <module>mock</module>
-    <module>apt-test-generator</module>
-    <module>annotation-error-decoder</module>
-    <module>example-github</module>
-    <module>example-github-with-coroutine</module>
-    <module>example-wikipedia</module>
-    <module>example-wikipedia-with-springboot</module>
-    <module>benchmark</module>
-    <module>moshi</module>
+    <!--    <module>micrometer</module>-->
+    <!--    <module>mock</module>-->
+    <!--    <module>apt-test-generator</module>-->
+    <!--    <module>annotation-error-decoder</module>-->
+    <!--    <module>example-github</module>-->
+    <!--    <module>example-github-with-coroutine</module>-->
+    <!--    <module>example-wikipedia</module>-->
+    <!--    <module>example-wikipedia-with-springboot</module>-->
+    <!--    <module>benchmark</module>-->
+    <!--    <module>moshi</module>-->
   </modules>
 
   <properties>
+    <project.originalGroupId>io.github.openfeign</project.originalGroupId>
+
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
 
@@ -155,13 +157,17 @@
 
   <distributionManagement>
     <repository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+      <id>maven-sonatype</id>
+      <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
-    <snapshotRepository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
+    <!--    <repository>-->
+    <!--      <id>ossrh</id>-->
+    <!--      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>-->
+    <!--    </repository>-->
+    <!--    <snapshotRepository>-->
+    <!--      <id>ossrh</id>-->
+    <!--      <url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
+    <!--    </snapshotRepository>-->
   </distributionManagement>
 
   <issueManagement>
@@ -186,49 +192,49 @@
       </dependency>
 
       <dependency>
-        <groupId>${project.groupId}</groupId>
+        <groupId>${project.originalGroupId}</groupId>
         <artifactId>feign-gson</artifactId>
         <version>${project.version}</version>
       </dependency>
 
       <dependency>
-        <groupId>${project.groupId}</groupId>
+        <groupId>${project.originalGroupId}</groupId>
         <artifactId>feign-httpclient</artifactId>
         <version>${project.version}</version>
       </dependency>
 
       <dependency>
-        <groupId>${project.groupId}</groupId>
+        <groupId>${project.originalGroupId}</groupId>
         <artifactId>feign-hystrix</artifactId>
         <version>${project.version}</version>
       </dependency>
 
       <dependency>
-        <groupId>${project.groupId}</groupId>
+        <groupId>${project.originalGroupId}</groupId>
         <artifactId>feign-jackson-jaxb</artifactId>
         <version>${project.version}</version>
       </dependency>
 
       <dependency>
-        <groupId>${project.groupId}</groupId>
+        <groupId>${project.originalGroupId}</groupId>
         <artifactId>feign-jackson</artifactId>
         <version>${project.version}</version>
       </dependency>
 
       <dependency>
-        <groupId>${project.groupId}</groupId>
+        <groupId>${project.originalGroupId}</groupId>
         <artifactId>feign-jaxb</artifactId>
         <version>${project.version}</version>
       </dependency>
 
       <dependency>
-        <groupId>${project.groupId}</groupId>
+        <groupId>${project.originalGroupId}</groupId>
         <artifactId>feign-jaxrs</artifactId>
         <version>${project.version}</version>
       </dependency>
 
       <dependency>
-        <groupId>${project.groupId}</groupId>
+        <groupId>${project.originalGroupId}</groupId>
         <artifactId>feign-jaxrs</artifactId>
         <version>${project.version}</version>
         <type>test-jar</type>
@@ -236,7 +242,7 @@
       </dependency>
 
       <dependency>
-        <groupId>${project.groupId}</groupId>
+        <groupId>${project.originalGroupId}</groupId>
         <artifactId>feign-jaxrs</artifactId>
         <version>${project.version}</version>
         <classifier>jakarta</classifier>
@@ -249,13 +255,13 @@
       </dependency>
 
       <dependency>
-        <groupId>${project.groupId}</groupId>
+        <groupId>${project.originalGroupId}</groupId>
         <artifactId>feign-jaxrs2</artifactId>
         <version>${project.version}</version>
       </dependency>
 
       <dependency>
-        <groupId>${project.groupId}</groupId>
+        <groupId>${project.originalGroupId}</groupId>
         <artifactId>feign-jaxrs2</artifactId>
         <version>${project.version}</version>
         <classifier>jakarta</classifier>
@@ -272,38 +278,38 @@
       </dependency>
 
       <dependency>
-        <groupId>${project.groupId}</groupId>
+        <groupId>${project.originalGroupId}</groupId>
         <artifactId>feign-jaxrs3</artifactId>
         <version>${project.version}</version>
       </dependency>
 
       <dependency>
-        <groupId>${project.groupId}</groupId>
+        <groupId>${project.originalGroupId}</groupId>
         <artifactId>feign-mock</artifactId>
         <version>${project.version}</version>
         <scope>test</scope>
       </dependency>
 
       <dependency>
-        <groupId>${project.groupId}</groupId>
+        <groupId>${project.originalGroupId}</groupId>
         <artifactId>feign-okhttp</artifactId>
         <version>${project.version}</version>
       </dependency>
 
       <dependency>
-        <groupId>${project.groupId}</groupId>
+        <groupId>${project.originalGroupId}</groupId>
         <artifactId>feign-ribbon</artifactId>
         <version>${project.version}</version>
       </dependency>
 
       <dependency>
-        <groupId>${project.groupId}</groupId>
+        <groupId>${project.originalGroupId}</groupId>
         <artifactId>feign-sax</artifactId>
         <version>${project.version}</version>
       </dependency>
 
       <dependency>
-        <groupId>${project.groupId}</groupId>
+        <groupId>${project.originalGroupId}</groupId>
         <artifactId>feign-slf4j</artifactId>
         <version>${project.version}</version>
       </dependency>
@@ -315,7 +321,7 @@
       </dependency>
 
       <dependency>
-        <groupId>${project.groupId}</groupId>
+        <groupId>${project.originalGroupId}</groupId>
         <artifactId>feign-micrometer</artifactId>
         <version>${project.version}</version>
         <type>test-jar</type>
@@ -796,18 +802,18 @@
           <tag>${project.version}</tag>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.sonatype.plugins</groupId>
-        <artifactId>nexus-staging-maven-plugin</artifactId>
-        <version>1.6.13</version>
-        <extensions>true</extensions>
-        <configuration>
-          <serverId>ossrh</serverId>
-          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-          <autoReleaseAfterClose>true</autoReleaseAfterClose>
-          <stagingProgressTimeoutMinutes>15</stagingProgressTimeoutMinutes>
-        </configuration>
-      </plugin>
+      <!--      <plugin>-->
+      <!--        <groupId>org.sonatype.plugins</groupId>-->
+      <!--        <artifactId>nexus-staging-maven-plugin</artifactId>-->
+      <!--        <version>1.6.13</version>-->
+      <!--        <extensions>true</extensions>-->
+      <!--        <configuration>-->
+      <!--          <serverId>ossrh</serverId>-->
+      <!--          <nexusUrl>https://oss.sonatype.org/</nexusUrl>-->
+      <!--          <autoReleaseAfterClose>true</autoReleaseAfterClose>-->
+      <!--          <stagingProgressTimeoutMinutes>15</stagingProgressTimeoutMinutes>-->
+      <!--        </configuration>-->
+      <!--      </plugin>-->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>

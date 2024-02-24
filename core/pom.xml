@@ -18,7 +18,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>io.github.openfeign</groupId>
+    <groupId>io.github.sunny-chung</groupId>
     <artifactId>parent</artifactId>
     <version>13.2.1-patch-1</version>
   </parent>
